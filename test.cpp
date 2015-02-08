@@ -62,8 +62,7 @@ BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtZero)
 	BOOST_REQUIRE(lfsr4.step() == 0);
 	
 	LFSR lfsr5("11001100110011001100110011001100", 0);
-	BOOST_REQUIRE(lfsr7.generate(6) == 34);
+	BOOST_REQUIRE(lfsr5.generate(6) == 34);
 }
-
 
 

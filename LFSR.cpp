@@ -45,7 +45,7 @@ int LFSR::generate(int k)
 
 	for(int i = 0; i < k; ++i)
 		integerValueOfBitSequence  = (integerValueOfBitSequence * 2) + step();
-	
+
 	return integerValueOfBitSequence;
 }
 
