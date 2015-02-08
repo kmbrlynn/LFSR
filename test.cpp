@@ -46,8 +46,8 @@ BOOST_AUTO_TEST_CASE(fiveBitsTapAtTwo)
 	BOOST_REQUIRE(lfsr4.step() == 1);
 	BOOST_REQUIRE(lfsr4.step() == 0);
 
-//  LFSR lfsr5("00111", 2);
-//  BOOST_REQUIRE(lfsr5.generate(8) == 198);
+  LFSR lfsr5("00111", 2);
+  BOOST_REQUIRE(lfsr5.generate(8) == 198);
 }
 
 // ================================================= very long string

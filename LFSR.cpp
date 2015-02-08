@@ -41,13 +41,14 @@ int LFSR::step()
 // =================================================================================
 int LFSR::generate(int k)
 {
-	int r = 0;
-	r = (r * 2) + step();
-	
-	cout << r << endl;
+	// a 'bit sequence' is the sequence of bits returned by step() 
+	// After k calls to step, the bit sequence is k bits long
+	integerValueOfBitSequence = 0;
 
-	// simulates k steps of the LFSR
-	// returns a k-bit int
+	for(int i = 0; i < k; ++i)
+		integerValueOfBitSequence  = (integerValueOfBitSequence * 2) + step();
+	
+	return integerValueOfBitSequence;
 }
 
 // =================================================================================
@@ -58,21 +59,5 @@ ostream& operator <<(ostream& os, const LFSR& lfsr)
 	for (iter = lfsr._seed.begin(); iter != lfsr._seed.end(); ++iter)
 		os << *iter;
 
-	// as well as its last bit
-//	os << " " << lfsr._seed.back();
-
 	return os;
 }
-
-
-
-
-
-
-
-
-//	for (int i = 0; i < lfsr._register.size(); ++i)
-//		os << lfsr._seed[i];
-
-
-
