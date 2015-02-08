@@ -7,86 +7,63 @@
 #include <boost/test/unit_test.hpp>
 
 // ================================================ very short string
-// edge case: tap at the rightmost bit
+// tap at bit 0 (rightmost edge case)
+// call 6 steps
+// 001110 in binary = 14 in decimal
+
 BOOST_AUTO_TEST_CASE(threeBitsTapAtZero)
 {
 	LFSR lfsr0("101", 0);
-	// test step function
-	// ...
+	BOOST_REQUIRE(lfsr0.step() == 0);
+	BOOST_REQUIRE(lfsr0.step() == 0);
+	BOOST_REQUIRE(lfsr0.step() == 1);
+	BOOST_REQUIRE(lfsr0.step() == 1);
+	BOOST_REQUIRE(lfsr0.step() == 1);
+	BOOST_REQUIRE(lfsr0.step() == 0);
 
-	LFSR lfsr1("011", 0);
-	// test genrate functoin
-	// ...
-}
-
-// edge case: tap at the leftmost bit
-BOOST_AUTO_TEST_CASE(threeBitsTapAtTwo)
-{
-	LFSR lfsr2("000", 2);
-	// test step function
-	// ...
-
-	LFSR lfsr3("111", 2);
-	// test generat function
-	// ... 
+	LFSR lfsr1("101", 0);
+	BOOST_REQUIRE(lfsr1.generate(6) == 14);
 }
 
 // ============================================= medium length string
-// tap bit somewhere in the middle
-// (this test provided in starter file for test.cpp)
+// tap at bit 2 (somewhere in the middle)
+// call 8 steps
+// 11000110 in binary = 198 in decimal
+
 BOOST_AUTO_TEST_CASE(fiveBitsTapAtTwo) 
 {
-	LFSR lfsr4("00111", 2);
-	BOOST_REQUIRE(lfsr4.step() == 1);
-	BOOST_REQUIRE(lfsr4.step() == 1);
-	BOOST_REQUIRE(lfsr4.step() == 0);
-	BOOST_REQUIRE(lfsr4.step() == 0);
-	BOOST_REQUIRE(lfsr4.step() == 0);
-	BOOST_REQUIRE(lfsr4.step() == 1);
-	BOOST_REQUIRE(lfsr4.step() == 1);
-	BOOST_REQUIRE(lfsr4.step() == 0);
-
-  LFSR lfsr5("00111", 2);
-  BOOST_REQUIRE(lfsr5.generate(8) == 198);
+	LFSR lfsr2("00111", 2);
+	BOOST_REQUIRE(lfsr2.step() == 1);
+	BOOST_REQUIRE(lfsr2.step() == 1);
+	BOOST_REQUIRE(lfsr2.step() == 0);
+	BOOST_REQUIRE(lfsr2.step() == 0);
+	BOOST_REQUIRE(lfsr2.step() == 0);
+	BOOST_REQUIRE(lfsr2.step() == 1);
+	BOOST_REQUIRE(lfsr2.step() == 1);
+	BOOST_REQUIRE(lfsr2.step() == 0);
+	
+	LFSR lfsr3("00111", 2);
+	BOOST_REQUIRE(lfsr3.generate(8) == 198);
 }
 
 // ================================================= very long string
-// edge case: tap at the rightmost bit
+// tap at bit 0 (rightmost edge case)
+// call 6 steps
+// 100010 in binary = 34
+
 BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtZero)
 {
-	LFSR lfsr6("10101010101010101010101010101010", 0);
-	// test step function
-	// ...
-
-	LFSR lfsr7("0001111000011110000111100001111", 0);
-	// test genrate functoin
-	// ...
+	LFSR lfsr4("11001100110011001100110011001100", 0);
+	BOOST_REQUIRE(lfsr4.step() == 1);
+	BOOST_REQUIRE(lfsr4.step() == 0);
+	BOOST_REQUIRE(lfsr4.step() == 0);
+	BOOST_REQUIRE(lfsr4.step() == 0);
+	BOOST_REQUIRE(lfsr4.step() == 1);
+	BOOST_REQUIRE(lfsr4.step() == 0);
+	
+	LFSR lfsr5("11001100110011001100110011001100", 0);
+	BOOST_REQUIRE(lfsr7.generate(6) == 34);
 }
-
-// edge case: tap at the leftmost bit
-BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtThirtyOne)
-{
-	LFSR lfsr8("11001100110011001100110011001100", 31);
-	// test step function
-	// ...
-
-	LFSR lfsr9("11010010110100101101000011110101", 31);
-	// test genrate functoin
-	// ...
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

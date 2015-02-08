@@ -8,8 +8,6 @@ using namespace std;
 // =================================================== Con/destructors =============
 LFSR::LFSR(string seed, int tap)
 {
-	// may want to do some exception handling... 
-	//		in case (seed[i] != '0' || seed[i] != '1') 
 	for (int i = 0; i < seed.length(); ++i)
 	{
 		if (seed[i] == '0')
@@ -43,7 +41,7 @@ int LFSR::generate(int k)
 {
 	// a 'bit sequence' is the sequence of bits returned by step() 
 	// After k calls to step, the bit sequence is k bits long
-	integerValueOfBitSequence = 0;
+	int integerValueOfBitSequence = 0;
 
 	for(int i = 0; i < k; ++i)
 		integerValueOfBitSequence  = (integerValueOfBitSequence * 2) + step();
