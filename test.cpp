@@ -6,10 +6,12 @@
 #define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
 
-// ================================================ very short string
+using namespace std;
+
+// ========================================================== very short string
 // tap at bit 0 (rightmost edge case)
-// call 6 steps
-// 001110 in binary = 14 in decimal
+// test step() - call 6 steps, should produce 001110 bit sequence
+// test generate() - does 001110 in binary == 14 in decimal?
 
 BOOST_AUTO_TEST_CASE(threeBitsTapAtZero)
 {
@@ -25,10 +27,10 @@ BOOST_AUTO_TEST_CASE(threeBitsTapAtZero)
 	BOOST_REQUIRE(lfsr1.generate(6) == 14);
 }
 
-// ============================================= medium length string
+// ======================================================= medium length string
 // tap at bit 2 (somewhere in the middle)
-// call 8 steps
-// 11000110 in binary = 198 in decimal
+// test step() - call 8 steps, should produce 11000110 bit sequence
+// test generate() - does 11000110 in binary == 198 in decimal?
 
 BOOST_AUTO_TEST_CASE(fiveBitsTapAtTwo) 
 {
@@ -46,10 +48,10 @@ BOOST_AUTO_TEST_CASE(fiveBitsTapAtTwo)
 	BOOST_REQUIRE(lfsr3.generate(8) == 198);
 }
 
-// ================================================= very long string
+// =========================================================== very long string
 // tap at bit 0 (rightmost edge case)
-// call 6 steps
-// 100010 in binary = 34
+// test step() - call 6 steps, should produce a 100010 bit sequence
+// test generate() - does 100010 in binary == 34 in decimal?
 
 BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtZero)
 {
@@ -64,5 +66,4 @@ BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtZero)
 	LFSR lfsr5("11001100110011001100110011001100", 0);
 	BOOST_REQUIRE(lfsr5.generate(6) == 34);
 }
-
 
