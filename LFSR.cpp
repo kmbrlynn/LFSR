@@ -4,6 +4,9 @@
 #include <iostream>
 #include <cstdlib>
 
+const char ASCII_ZERO = '0';
+const char ASCII_ONE = '1';
+
 // =================================================== Con/destructors =============
 LFSR::LFSR(std::string seed, int tap) : _seedStr(seed)
 {
@@ -22,17 +25,22 @@ int LFSR::stringToVector()
 	{
 		try
 		{
-			if (_seedStr[i] == '0')
+			if (_seedStr[i] == ASCII_ZERO)
 				_seedVect.push_back(0);
-			if (_seedStr[i] == '1')
+
+			if (_seedStr[i] == ASCII_ONE)
 				_seedVect.push_back(1);
-			if (_seedStr[i] != '0' && _seedStr[i] != '1')
+
+			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
 				throw notAOneOrZero();
 		}
 		catch (notAOneOrZero e)
 		{
-			std::cout << "LFSR constructor must take a std::string ";
-			std::cout << "of 0 and 1 chars" << std::endl;
+			std::cout << std::endl << "Encountered character: '" << _seedStr[i];
+			std::cout << "' at _seedStr[" << i << "] " << std::endl;
+			std::cout << "LFSR constructor may take a std::string containing only '";
+			std::cout << ASCII_ZERO << "' or '" << ASCII_ONE << "' characters.";
+			std::cout << std::endl << std::endl;
 			return 1;
 		}
 	}
@@ -44,9 +52,10 @@ int LFSR::vectorToString()
 	for(int i = 0; i < _seedVect.size(); ++i)
 	{
 		if (_seedVect[i] == 0)
-			_seedStr[i] = '0';
+			_seedStr[i] = ASCII_ZERO;
+
 		if (_seedVect[i] == 1)
-			_seedStr[i] = '1';
+			_seedStr[i] = ASCII_ONE;
 	}
 	return 0;
 }
@@ -89,27 +98,5 @@ std::ostream& operator <<(std::ostream& outStream, const LFSR& lfsr)
 	outStream << lfsr._seedStr;
 	return outStream;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
