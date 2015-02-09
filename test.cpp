@@ -6,8 +6,6 @@
 #define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
-
 // ========================================================== very short string
 // tap at bit 0 (rightmost edge case)
 // test step() - call 6 steps, should produce 001110 bit sequence
@@ -66,4 +64,18 @@ BOOST_AUTO_TEST_CASE(thirtyTwoBitsTapAtZero)
 	LFSR lfsr5("11001100110011001100110011001100", 0);
 	BOOST_REQUIRE(lfsr5.generate(6) == 34);
 }
+
+// ================================ check that only ASCII 0s and 1s were passed
+
+// runs stringToVector() - part of which is to inspect string characters
+// returns 0 if all characters in the string are 0 and 1 characters
+// returns 1 if it finds a rogue character
+
+BOOST_AUTO_TEST_CASE(verifyStringParameter)
+{
+	LFSR lfsr5("101010010", 8);
+	BOOST_REQUIRE(lfsr5.stringToVector() == 0);
+}
+
+
 
