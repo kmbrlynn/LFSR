@@ -50,12 +50,13 @@ int LFSR::generate(int k)
 }
 
 // =================================================================================
-ostream& operator <<(ostream& os, const LFSR& lfsr)
+ostream& operator <<(ostream& outStream, const LFSR& lfsr)
 {
 	// print one step
 	vector<int>::const_iterator iter;
 	for (iter = lfsr._seed.begin(); iter != lfsr._seed.end(); ++iter)
-		os << *iter;
+		outStream << *iter;
 
-	return os;
+	return outStream;
 }
+
