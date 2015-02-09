@@ -1,21 +1,26 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+class notAOneOrZero
+{};
 
 class LFSR
 {
 public:
-	LFSR(string, int);
-	
+	LFSR(std::string, int);
+
+	int stringToVector();
+	int vectorToString();
+
 	int step();
 	int generate(int);
 
-	friend ostream& operator <<(ostream&, const LFSR&);
+	friend std::ostream& operator <<(std::ostream&, const LFSR&);
 
 private:
-	vector<int> _seed;
-	int _tap;
+	std::string _seedString;
+	std::vector<int> _seed;
+	int _subtractedTap; 
 
 };
 
