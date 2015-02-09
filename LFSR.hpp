@@ -18,34 +18,9 @@ public:
 	friend std::ostream& operator <<(std::ostream&, const LFSR&);
 
 private:
-	std::string _seedString;
-	std::vector<int> _seed;
+	std::string _seedStr;
+	std::vector<int> _seedVect;
 	int _subtractedTap; 
-
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
