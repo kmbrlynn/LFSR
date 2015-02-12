@@ -1,3 +1,4 @@
+#include <SFML/Graphics.hpp>
 #include "LFSR.hpp"
 #include <string>
 #include <vector>

@@ -1,8 +1,28 @@
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
 
+// check validity of seed string
 class notAOneOrZero
 {};
+
+// check validity of command line args
+class invalidArgc
+{};
+
+class invalidBitstring
+{};
+
+class invalidTap
+{};
+
+class invalidInputFile
+{};
+
+
+//class invalidTapPosition
+//{};
+
 
 class LFSR
 {
