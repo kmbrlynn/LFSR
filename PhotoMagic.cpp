@@ -5,9 +5,6 @@
 #include <iostream>
 #include "LFSR.hpp"
 
-const int ASCII_ZERO = '0';
-const int ASCII_ONE = '1';
-
 const int ARGC_WITH_PASSWORD = 4;
 const int ARGC_WITH_BITSTRING = 5;
 
@@ -16,38 +13,6 @@ const int OUTPUT_ARG = 2;
 const int PASSWORD_ARG = 3;
 const int BITSTRING_ARG = 3;
 const int TAP_ARG = 4;
-
-// ================================================== function to validate bitstring
-// a bitstring may only contain ascii 1s and 0s
-// tap must exist within the bounds of the bitstring 
-
-bool bitstringAndTapAreValid(std::string bitstring, int tap)
-{
-	for(int i = 0; i < bitstring.size(); ++i)
-	{
-		if (bitstring[i] != ASCII_ONE && bitstring[i] != ASCII_ZERO)
-		{
-			std::cout << std::endl;
-			std::cout << "Your bitstring may only contain 1s and 0s. If you wish ";
-			std::cout << "to supply a password containing any type of character, ";
-			std::cout << "then do not supply a tap position. Please try again!";
-			std::cout << std::endl << std::endl;
-			return false;
-		}
-	}
-
-	if (tap < 0 || tap+1 > bitstring.size())
-	{
-		std::cout << "You supplied a tap position outside the bounds of your ";
-		std::cout << "bitstring. Please try again!" << std::endl << std::endl;
-		return false;
-	}
-
-	return true;
-}
-
-// =================================================================================
-// =================================================================================
 
 int main(int argc, char* argv[])
 {

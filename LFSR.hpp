@@ -2,11 +2,7 @@
 #include <string>
 #include <vector>
 
-// check validity of seed string
-class notAOneOrZero
-{};
-
-// check validity of command line args
+// ======================================= validate arguments to main 
 class invalidArgc
 {};
 
@@ -16,10 +12,9 @@ class invalidInputFile
 class invalidOutputFormat
 {};
 
-//class invalidTapPosition
-//{};
+bool bitstringAndTapAreValid(std::string, int);
 
-
+// ============================================================ LFSR
 class LFSR
 {
 public:

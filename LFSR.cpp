@@ -24,26 +24,14 @@ int LFSR::stringToVector()
 {
 	for (int i = 0; i < _seedStr.size(); ++i)
 	{
-		try
-		{
-			if (_seedStr[i] == ASCII_ZERO)
-				_seedVect.push_back(0);
+		if (_seedStr[i] == ASCII_ZERO)
+			_seedVect.push_back(0);
 
-			if (_seedStr[i] == ASCII_ONE)
-				_seedVect.push_back(1);
+		if (_seedStr[i] == ASCII_ONE)
+			_seedVect.push_back(1);
 
-			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
-				throw notAOneOrZero();
-		}
-		catch (notAOneOrZero e)
-		{
-			std::cout << std::endl << "Encountered character: '" << _seedStr[i];
-			std::cout << "' at _seedStr[" << i << "] " << std::endl;
-			std::cout << "LFSR constructor may take a std::string containing only '";
-			std::cout << ASCII_ZERO << "' or '" << ASCII_ONE << "' characters.";
-			std::cout << std::endl << std::endl;
-			return 1;
-		}
+		if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
+			return 1; // this will never happen
 	}
 	return 0;
 }
@@ -98,6 +86,32 @@ std::ostream& operator <<(std::ostream& outStream, const LFSR& lfsr)
 	// print the current string representation of the register
 	outStream << lfsr._seedStr;
 	return outStream;
+}
+
+// =================================================================================
+bool bitstringAndTapAreValid(std::string bitstring, int tap)
+{
+	for(int i = 0; i < bitstring.size(); ++i)
+	{
+		if (bitstring[i] != ASCII_ONE && bitstring[i] != ASCII_ZERO)
+		{
+			std::cout << std::endl;
+			std::cout << "Your bitstring may only contain 1s and 0s. If you wish ";
+			std::cout << "to supply a password containing any type of character, ";
+			std::cout << "then do not supply a tap position. Please try again!";
+			std::cout << std::endl << std::endl;
+			return false;
+		}
+	}
+
+	if (tap < 0 || tap+1 > bitstring.size())
+	{
+		std::cout << "You supplied a tap position outside the bounds of your ";
+		std::cout << "bitstring. Please try again!" << std::endl << std::endl;
+		return false;
+	}
+
+	return true;
 }
 
 
