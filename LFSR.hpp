@@ -10,15 +10,11 @@ class notAOneOrZero
 class invalidArgc
 {};
 
-class invalidBitstring
-{};
-
-class invalidTap
-{};
-
 class invalidInputFile
 {};
 
+class invalidOutputFormat
+{};
 
 //class invalidTapPosition
 //{};

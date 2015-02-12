@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <cstring>
 #include <cstdlib>
 #include <iostream>
 #include "LFSR.hpp"
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
 	try
 	{
 		inputFile = argv[INPUT_ARG];
-		outputFile = argv[OUTPUT_ARG];
+//		outputFile = argv[OUTPUT_ARG];
 
 		if (!image.loadFromFile(inputFile))
 			throw invalidInputFile();
@@ -106,6 +107,32 @@ int main(int argc, char* argv[])
 		std::cout << std::endl << "You ran PhotoMagic with '" << inputFile;
 		std::cout << "' as an input file. Please chack that this file" << std::endl; 
 		std::cout << "exists in the current directory, and try again.";
+		std::cout << std::endl << std::endl;
+		return -1;
+	}
+
+	// ===================================== is the user outputting to a png format?
+	try
+	{
+		outputFile = argv[OUTPUT_ARG];
+
+		char* fileExt = new char[outputFile.size()+1]; // +1 for null terminator
+		std::strcpy(fileExt, outputFile.c_str());
+		int size = outputFile.size();
+
+		if (	size < 5 || // filename before extension must be at least 1 char
+				fileExt[size-1] != 'g' && fileExt[size-1]	!= 'G'	||
+				fileExt[size-2] != 'n' && fileExt[size-2]	!= 'N'	||
+				fileExt[size-3] != 'p' && fileExt[size-4]	!= 'P'	||
+				fileExt[size-4] != '.'
+	       ) { throw invalidOutputFormat(); }
+
+	}
+	catch (invalidOutputFormat e)
+	{
+		std::cout << std::endl << "You ran PhotoMagic with '" << outputFile;
+		std::cout << "' as an output file. Please provide a filename ending ";
+		std::cout << std::endl << "with a '.png' extension, and try again.";
 		std::cout << std::endl << std::endl;
 		return -1;
 	}
@@ -135,7 +162,7 @@ int main(int argc, char* argv[])
 		window.display();
 	}
 
-	if (!image.saveToFile(outputFile + ".png"))
+	if (!image.saveToFile(outputFile))
 		return -1;
 
 	return 0;
