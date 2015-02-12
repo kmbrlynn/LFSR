@@ -16,7 +16,7 @@ const int PASSWORD_ARG = 3;
 const int BITSTRING_ARG = 3;
 const int TAP_ARG = 4;
 
-// ============================================================== validate bitstring
+// ================================================== function to validate bitstring
 // a bitstring may only contain ascii 1s and 0s
 // tap must exist within the bounds of the bitstring 
 
@@ -45,24 +45,30 @@ bool bitstringAndTapAreValid(std::string bitstring, int tap)
 	return true;
 }
 
+// =================================================================================
+// =================================================================================
+
 int main(int argc, char* argv[])
 {
-	std::string inputFile;// = argv[INPUT_ARG];
-	std::string outputFile;// = argv[OUTPUT_ARG];
-	std::string password; // = argv[PASSWORD_ARG];
-	std::string bitstring; // = argv[BITSTRING_ARG]
+	// args to main
+	std::string inputFile;
+	std::string outputFile;
+	std::string password; 
+	std::string bitstring;
 	int tap; 
 
+	// sfml-related vars
+	sf::Image image;
 
 
 	// ========================= did the user supply the correct number of arguments?
 	try
 	{	
-		// args to main are: input, output, and password
+		// arg-c... if they want to give it a password
 		if (argc == ARGC_WITH_PASSWORD)
 			password = argv[PASSWORD_ARG];
 		
-		// args to main are: input, output, bitstring, and tap
+		// arg-c... if they want to give it a bitstring and tap
 		if (argc == ARGC_WITH_BITSTRING)
 		{
 			bitstring = argv[BITSTRING_ARG];
@@ -72,7 +78,7 @@ int main(int argc, char* argv[])
 				return -1;
 		}
 
-		// arg-c...learly you are doing it wrong
+		// arg-c...learly they are doing it wrong
 		if (argc != ARGC_WITH_PASSWORD && argc != ARGC_WITH_BITSTRING)
 			throw invalidArgc();
 	}
@@ -87,7 +93,6 @@ int main(int argc, char* argv[])
 	}
 
 	// ==================================== does the user-supplied input file exist?
-	sf::Image image;
 	try
 	{
 		inputFile = argv[INPUT_ARG];
@@ -105,24 +110,33 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	// ========================================================== now do sfml stuff!
+	sf::Vector2u size = image.getSize();
+	sf::RenderWindow window(sf::VideoMode(size.x, size.y), inputFile);
 
+	sf::Texture texture;
+	texture.loadFromImage(image);
 
+	sf::Sprite sprite;
+	sprite.setTexture(texture);
 
+	while (window.isOpen())
+	{
+		sf::Event event;
+		
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
 
+		window.clear(sf::Color::White);
+		window.draw(sprite);
+		window.display();
+	}
 
-	
-
-
-
-
-
-
-
-
-
-
-//std::cout << inputFile << std::endl;
-
+	if (!image.saveToFile(outputFile + ".png"))
+		return -1;
 
 	return 0;
 }
