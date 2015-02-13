@@ -26,8 +26,9 @@ int main(int argc, char* argv[])
 	// sfml-related vars
 	sf::Image inputImage;
 	sf::Image outputImage;
-
+/*
 	sf::Vector2u size;
+	sf::Color pixel;
 
 	sf::RenderWindow inputWindow;
 	sf::Texture inputTexture;
@@ -36,7 +37,7 @@ int main(int argc, char* argv[])
 	sf::RenderWindow outputWindow;
 	sf::Texture outputTexture;
 	sf::Sprite outputSprite;
-
+*/
 	// ========================= did the user supply the correct number of arguments?
 	try
 	{	
@@ -89,79 +90,99 @@ int main(int argc, char* argv[])
 	try
 	{
 		outputFile = argv[OUTPUT_ARG];
+		outputImage.loadFromFile(outputFile);
 
 		char* fileExt = new char[outputFile.size()+1]; // +1 for null terminator
 		std::strcpy(fileExt, outputFile.c_str());
 		int size = outputFile.size();
 
-		if (	size < 5 || // filename before extension must be at least 1 char
-				fileExt[size-1] != 'g' && fileExt[size-1]	!= 'G'	||
+		if (  ( size < 5 ) || // if filename isn't at least one char long, or it's
+			  
+			  (	fileExt[size-1] != 'g' && fileExt[size-1]	!= 'G'	||	// neither a .png
 				fileExt[size-2] != 'n' && fileExt[size-2]	!= 'N'	||
 				fileExt[size-3] != 'p' && fileExt[size-4]	!= 'P'	||
-				fileExt[size-4] != '.'
-	       ) { throw invalidOutputFormat(); }
+				fileExt[size-4] != '.' 
+			  ) &&														// nor 
+	       
+		   	  (	fileExt[size-1] != 'p' && fileExt[size-1]	!= 'P'	||	// a .bmp
+				fileExt[size-2] != 'm' && fileExt[size-2]	!= 'M'	||
+				fileExt[size-3] != 'b' && fileExt[size-4]	!= 'B'	||
+				fileExt[size-4] != '.' 
+			  )
+
+		   ) { throw invalidOutputFormat(); }
 
 	}
 	catch (invalidOutputFormat e)
 	{
 		std::cout << std::endl << "You ran PhotoMagic with '" << outputFile;
 		std::cout << "' as an output file. Please provide a filename ending ";
-		std::cout << std::endl << "with a '.png' extension, and try again.";
+		std::cout << std::endl << "with a '.png' or '.bmp' extension, and try again.";
 		std::cout << std::endl << std::endl;
 		return -1;
 	}
 
 	// ========================================================== now do sfml stuff!
-	size = inputImage.getSize();
+	sf::Color pixel;
+	sf::Vector2u size = inputImage.getSize();
+	sf::RenderWindow window(sf::VideoMode(size.x*2, size.y), "input image");
+	
+	window.setPosition(sf::Vector2i(200, 50));
 
-	// input window
-	inputWindow.setSize(size);
-	inputWindow.setPosition(sf::Vector2i(100, 50));
-
+	// ====================================== input image
+	sf::Texture inputTexture;
 	inputTexture.loadFromImage(inputImage);
+	
+	sf::Sprite inputSprite;
 	inputSprite.setTexture(inputTexture);
+	inputSprite.setPosition(0, 0);
+
+	// ====================================== output image 
+	sf::Texture outputTexture;
+	outputTexture.loadFromImage(outputImage);
+	
+	sf::Sprite outputSprite;
+	outputSprite.setTexture(outputTexture);
+	outputSprite.setPosition(size.x, 0);
 
 	// === RUN LFSR ==== ? to generate output file
+	// for now just try to make a negative
 
 	for (int x = 0; x < size.x; ++x)
 	{
 		for (int y = 0; y < size.y; ++y)
 		{
-			
-
-
+			pixel = inputImage.getPixel(x, y);
+			pixel.r = 255 - pixel.r;
+			pixel.g = 255 - pixel.g;
+			pixel.b = 255 - pixel.b;
+			outputImage.setPixel(x, y, pixel);
 		}
-
-
 	}
 
-	// output window
-	outputWindow.setSize(size);
-	outputWindow.setPosition(sf::Vector2i(300, 50));
-	
-	outputTexture.loadFromImage(outputImage); // create this with LFSR
-	outputSprite.setTexture(outputTexture);
-
-	while (inputWindow.isOpen() && outputWindow.isOpen())
+	while (window.isOpen()/* && outputWindow.isOpen()*/)
 	{
 		sf::Event event;
 		
-		while (inputWindow.pollEvent(event))
+		while (window.pollEvent(event))
+		{
 			if (event.type == sf::Event::Closed)
-				inputWindow.close();
+				window.close();
+		}
 
-		while (outputWindow.pollEvent(event))
-			if (event.type == sf::Event::Closed)
-				outputWindow.close();
+//		while (outputWindow.pollEvent(event))
+//			if (event.type == sf::Event::Closed)
+//				outputWindow.close();
 		
 
-		inputWindow.clear(sf::Color::White);
-		inputWindow.draw(inputSprite);
-		inputWindow.display();
+		window.clear(sf::Color::White);
+		window.draw(inputSprite);
+		window.draw(outputSprite);
+		window.display();
 
-		outputWindow.clear(sf::Color::White);
-		outputWindow.draw(outputSprite);
-		outputWindow.display();
+//		outputWindow.clear(sf::Color::White);
+//		outputWindow.draw(outputSprite);
+//		outputWindow.display();
 	}
 
 	if (!outputImage.saveToFile(outputFile))
