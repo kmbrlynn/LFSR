@@ -9,11 +9,12 @@ using namespace std;
 
 void integer_to_binary(int num, vector<int>& bitstring)
 {
+	int quotient = num / 2;
 	int	bit = num % 2;
 	bitstring.push_back(bit);
 	
 	if (num > 0)
-		integer_to_binary(num/2, bitstring);
+		integer_to_binary(quotient, bitstring);
 }
 
 int main(int argc, char* argv[])
@@ -23,14 +24,14 @@ int main(int argc, char* argv[])
 	int integer = (int)ascii;
 	vector<int> bitstringVect;
 
-	integer_to_binary(ascii, bitstringVect);
+	integer_to_binary(integer, bitstringVect);
 
 	cout << ascii << " = " << integer << " = ";
 
-	// print with reverse mapping because
+	// will print in reverse because
 	// bitstringVect[0] corresponds to least significant bit
 	vector<int>::iterator iter;
-	for (iter = bitstringVect.end(); iter != bitstringVect.begin(); --iter)
+	for (iter = bitstringVect.begin(); iter != bitstringVect.end(); ++iter)
 		cout << *iter;
 
 	cout << endl;
