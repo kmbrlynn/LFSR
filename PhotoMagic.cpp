@@ -57,12 +57,12 @@ int main(int argc, char* argv[])
 			throw invalidArgc();
 	}
 	catch (invalidArgc e)
-	{
-		std::cout << std::endl << "You must supply PhotoMagic with: " << std::endl;
-		std::cout << "\t<input-file> <output-file> <32-bit-string> <tap-position>";
-		std::cout << std::endl << "\t\t-- or --" << std::endl;
-		std::cout << "\t<input-file> <output-file> <password>" << std::endl;
-		std::cout << "Please try again." << std::endl << std::endl;
+	{ 
+		std::cout << std::endl << "Usage:" << std::endl; 
+		std::cout << "\t./PhotoMagic input-file output-file bitstring tap-position";
+		std::cout << std::endl;
+		std::cout << "\t./PhotoMagic input-file output-file alphanumeric-password";
+		std::cout << std::endl << std::endl;
 		return -1;
 	}
 
@@ -75,10 +75,10 @@ int main(int argc, char* argv[])
 	}
 	catch (invalidInputFile e)
 	{
-		std::cout << std::endl << "You ran PhotoMagic with '" << inputFile;
-		std::cout << "' as an input file. Please chack that this file" << std::endl; 
-		std::cout << "exists in the current directory, and try again.";
-		std::cout << std::endl << std::endl;
+		std::cout << std::endl << "You provided input-file: '" << inputFile << "' ";
+		std::cout << "as an argument to PhotoMagic." << std::endl;
+		std::cout << "Please check that it exists in the current directory ";
+		std::cout << "and try again." << std::endl << std::endl;
 		return -1;
 	}
 
@@ -109,9 +109,9 @@ int main(int argc, char* argv[])
 	}
 	catch (invalidOutputFormat e)
 	{
-		std::cout << std::endl << "You ran PhotoMagic with '" << outputFile;
-		std::cout << "' as an output file. Please provide a filename ending ";
-		std::cout << std::endl << "with a '.png' or '.bmp' extension, and try again.";
+		std::cout << std::endl << "You provided output-file: '" << outputFile;
+		std::cout << "' as an argument to PhotoMagic." << std::endl;
+		std::cout << "Please provide file extension '.png' or '.bmp' and try again.";
 		std::cout << std::endl << std::endl;
 		return -1;
 	}

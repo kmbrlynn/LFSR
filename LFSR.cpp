@@ -95,10 +95,11 @@ bool bitstringAndTapAreValid(std::string bitstring, int tap)
 	{
 		if (bitstring[i] != ASCII_ONE && bitstring[i] != ASCII_ZERO)
 		{
-			std::cout << std::endl;
-			std::cout << "Your bitstring may only contain 1s and 0s. If you wish ";
-			std::cout << "to supply a password containing any type of character, ";
-			std::cout << "then do not supply a tap position. Please try again!";
+			std::cout << std::endl << "You provided '" << std::cout << bitstring;
+			std::cout << "' as a bitstring, which may only contain 1s and 0s.";
+			std::cout << std::endl << std::endl << "If you would rather provide ";
+			std::cout << "an alphanumeric password," << std::endl;
+			std::cout << "do not supply a tap position. Please try again.";
 			std::cout << std::endl << std::endl;
 			return false;
 		}
@@ -106,8 +107,9 @@ bool bitstringAndTapAreValid(std::string bitstring, int tap)
 
 	if (tap < 0 || tap+1 > bitstring.size())
 	{
-		std::cout << "You supplied a tap position outside the bounds of your ";
-		std::cout << "bitstring. Please try again!" << std::endl << std::endl;
+		std::cout << std::endl << "You provided a tap position that is not within ";
+		std::cout << "the bounds of your bitstring." << std::endl;
+		std::cout << "Please try again." << std::endl << std::endl;
 		return false;
 	}
 
