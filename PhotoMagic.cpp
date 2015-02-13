@@ -24,8 +24,18 @@ int main(int argc, char* argv[])
 	int tap; 
 
 	// sfml-related vars
-	sf::Image image;
+	sf::Image inputImage;
+	sf::Image outputImage;
 
+	sf::Vector2u size;
+
+	sf::RenderWindow inputWindow;
+	sf::Texture inputTexture;
+	sf::Sprite inputSprite;
+
+	sf::RenderWindow outputWindow;
+	sf::Texture outputTexture;
+	sf::Sprite outputSprite;
 
 	// ========================= did the user supply the correct number of arguments?
 	try
@@ -62,9 +72,8 @@ int main(int argc, char* argv[])
 	try
 	{
 		inputFile = argv[INPUT_ARG];
-//		outputFile = argv[OUTPUT_ARG];
 
-		if (!image.loadFromFile(inputFile))
+		if (!inputImage.loadFromFile(inputFile))
 			throw invalidInputFile();
 	}
 	catch (invalidInputFile e)
@@ -103,31 +112,59 @@ int main(int argc, char* argv[])
 	}
 
 	// ========================================================== now do sfml stuff!
-	sf::Vector2u size = image.getSize();
-	sf::RenderWindow window(sf::VideoMode(size.x, size.y), inputFile);
+	size = inputImage.getSize();
 
-	sf::Texture texture;
-	texture.loadFromImage(image);
+	// input window
+	inputWindow.setSize(size);
+	inputWindow.setPosition(sf::Vector2i(100, 50));
 
-	sf::Sprite sprite;
-	sprite.setTexture(texture);
+	inputTexture.loadFromImage(inputImage);
+	inputSprite.setTexture(inputTexture);
 
-	while (window.isOpen())
+	// === RUN LFSR ==== ? to generate output file
+
+	for (int x = 0; x < size.x; ++x)
+	{
+		for (int y = 0; y < size.y; ++y)
+		{
+			
+
+
+		}
+
+
+	}
+
+	// output window
+	outputWindow.setSize(size);
+	outputWindow.setPosition(sf::Vector2i(300, 50));
+	
+	outputTexture.loadFromImage(outputImage); // create this with LFSR
+	outputSprite.setTexture(outputTexture);
+
+	while (inputWindow.isOpen() && outputWindow.isOpen())
 	{
 		sf::Event event;
 		
-		while (window.pollEvent(event))
-		{
+		while (inputWindow.pollEvent(event))
 			if (event.type == sf::Event::Closed)
-				window.close();
-		}
+				inputWindow.close();
 
-		window.clear(sf::Color::White);
-		window.draw(sprite);
-		window.display();
+		while (outputWindow.pollEvent(event))
+			if (event.type == sf::Event::Closed)
+				outputWindow.close();
+		
+
+		inputWindow.clear(sf::Color::White);
+		inputWindow.draw(inputSprite);
+		inputWindow.display();
+
+		outputWindow.clear(sf::Color::White);
+		outputWindow.draw(outputSprite);
+		outputWindow.display();
 	}
 
-	if (!image.saveToFile(outputFile))
+	if (!outputImage.saveToFile(outputFile))
 		return -1;
 
 	return 0;
