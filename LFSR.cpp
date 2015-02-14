@@ -35,20 +35,19 @@ void LFSR::stringToVector()
 			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
 			{
 				_seedVect.clear();
-				throw neitherZeroNorOne();
+				throw translateAlphanumericToBinary();
 			}
 		}
 	}
-	catch (neitherZeroNorOne e)
+	catch (translateAlphanumericToBinary e)
 	{
-		std::cout << "entered neitherZeroNorOne function" << std::endl;
-
 		std::vector<int> integerVect;
 		int integerVectTotal = 0;
 
 		for (int i = 0; i < _seedStr.size(); ++i)
 		{
-			// integer value of ascii character
+			// cast the ascii character to its integer value, 
+			// and push it to the temporary vector of integers
 			integerVect.push_back((int)_seedStr.at(i));	
 			integerVectTotal = integerVectTotal + integerVect[i];
 		}

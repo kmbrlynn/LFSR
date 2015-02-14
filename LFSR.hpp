@@ -3,19 +3,21 @@
 #include <vector>
 
 // ======================================= validate arguments to main 
-class neitherZeroNorOne
-{};
+class translateAlphanumericToBinary
+{}; // in case the user supplies a password
 
 class invalidArgc
-{};
+{}; // in case the user doesn't give the correct number of args
 
 class invalidInputFile
-{};
+{}; // in case the user-specified input file can't be found
 
 class invalidOutputFormat
-{};
+{}; // in case the user doesn't specify a .png or .bmp output format
 
 bool bitstringAndTapAreValid(std::string, int);
+// ensures that a bitstring is made of 0s and 1s
+// and that the tap is an integer within the bitstring's bounds
 
 // ============================================================ LFSR
 class LFSR
