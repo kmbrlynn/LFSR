@@ -15,7 +15,7 @@ class invalidInputFile
 class invalidOutputFormat
 {}; // in case the user doesn't specify a .png or .bmp output format
 
-bool bitstringAndTapAreValid(std::string, int);
+bool bitstringAndTapAreValid(std::string, std::string);
 // ensures that a bitstring is made of 0s and 1s
 // and that the tap is an integer within the bitstring's bounds
 
