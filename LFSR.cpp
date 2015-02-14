@@ -41,6 +41,8 @@ void LFSR::stringToVector()
 	}
 	catch (neitherZeroNorOne e)
 	{
+		std::cout << "entered neitherZeroNorOne function" << std::endl;
+
 		std::vector<int> integerVect;
 		int integerVectTotal = 0;
 

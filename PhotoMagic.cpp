@@ -23,7 +23,10 @@ int main(int argc, char* argv[])
 	std::string outputFile;
 	std::string password; 
 	std::string bitstring;
-	int tap; 
+	int tap;
+
+	// for the LFSR - either a password or a bitstring
+	std::string seed;
 
 	// sfml vars
 	sf::Vector2u size;
@@ -43,10 +46,11 @@ int main(int argc, char* argv[])
 		// arg-c... if they want to give it a password
 		if (argc == ARGC_WITH_PASSWORD)
 		{
-			// their password will get converted to an 8-bit binary
-			// seed, to be tapped at a relatively prime position
+			// their password will get converted to a binary seed,
+			// to be tapped at a relatively prime position
 			password = argv[PASSWORD_ARG];
 			tap = PRIME_TAP;
+			seed = password;
 		}
 
 		// arg-c... if they want to give it a bitstring and tap
@@ -54,7 +58,8 @@ int main(int argc, char* argv[])
 		{
 			bitstring = argv[BITSTRING_ARG];
 			tap = std::atoi(argv[TAP_ARG]);
-			
+			seed = bitstring;
+
 			if (!bitstringAndTapAreValid(bitstring, tap))
 				return -1;
 		}
@@ -134,8 +139,8 @@ int main(int argc, char* argv[])
 	inputSprite.setTexture(inputTexture);
 	inputSprite.setPosition(0, 0);
 
-	// encrypt the image with LFSR
-	LFSR lfsr(bitstring, tap);
+	// encrypt the output image
+	LFSR lfsr(seed, tap);
 	for (int x = 0; x < size.x; ++x)
 	{
 		for (int y = 0; y < size.y; ++y)
