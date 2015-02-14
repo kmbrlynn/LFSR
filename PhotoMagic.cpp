@@ -14,6 +14,8 @@ const int PASSWORD_ARG = 3;
 const int BITSTRING_ARG = 3;
 const int TAP_ARG = 4;
 
+const int PRIME_TAP = 2;
+
 int main(int argc, char* argv[])
 {
 	// args to main
@@ -40,8 +42,13 @@ int main(int argc, char* argv[])
 	{	
 		// arg-c... if they want to give it a password
 		if (argc == ARGC_WITH_PASSWORD)
+		{
+			// their password will get converted to an 8-bit binary
+			// seed, to be tapped at a relatively prime position
 			password = argv[PASSWORD_ARG];
-		
+			tap = PRIME_TAP;
+		}
+
 		// arg-c... if they want to give it a bitstring and tap
 		if (argc == ARGC_WITH_BITSTRING)
 		{
