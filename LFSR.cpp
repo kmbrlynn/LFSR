@@ -20,23 +20,48 @@ LFSR::LFSR(std::string seed, int tap) : _seedStr(seed)
 }
 
 // =================================================================================
-int LFSR::stringToVector()
+void LFSR::stringToVector()
 {
-	for (int i = 0; i < _seedStr.size(); ++i)
+	try
 	{
-		if (_seedStr[i] == ASCII_ZERO)
-			_seedVect.push_back(0);
+		for (int i = 0; i < _seedStr.size(); ++i)
+		{
+			if (_seedStr[i] == ASCII_ZERO)
+				_seedVect.push_back(0);
 
-		if (_seedStr[i] == ASCII_ONE)
-			_seedVect.push_back(1);
+			if (_seedStr[i] == ASCII_ONE)
+				_seedVect.push_back(1);
 
-		if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
-			return 1; // this will never happen
+			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
+			{
+				_seedVect.clear();
+				throw neitherZeroNorOne();
+			}
+		}
 	}
-	return 0;
+	catch (neitherZeroNorOne e)
+	{
+		std::vector<int> integerVect;
+		int integerVectTotal = 0;
+
+		for (int i = 0; i < _seedStr.size(); ++i)
+		{
+			// integer value of ascii character
+			integerVect.push_back((int)_seedStr.at(i));	
+			integerVectTotal = integerVectTotal + integerVect[i];
+		}
+		
+		// add up the integer values for each character in the string, 
+		// convert them into binary, and put them in the _seedVect
+		integerToBinary(integerVectTotal);
+		
+		// keep the string representation up to date with the vector representation
+		vectorToString();
+	}
 }
+	
 // =================================================================================
-int LFSR::vectorToString()
+void LFSR::vectorToString()
 {
 	for(int i = 0; i < _seedVect.size(); ++i)
 	{
@@ -46,7 +71,17 @@ int LFSR::vectorToString()
 		if (_seedVect[i] == 1)
 			_seedStr[i] = ASCII_ONE;
 	}
-	return 0;
+}
+
+// =================================================================================
+void LFSR::integerToBinary(int num)
+{
+	int quotient = num / 2;
+	int bit = num % 2;
+	_seedVect.push_back(bit);
+
+	if (num > 0)
+		integerToBinary(quotient);
 }
 
 // =================================================================================

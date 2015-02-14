@@ -3,6 +3,9 @@
 #include <vector>
 
 // ======================================= validate arguments to main 
+class neitherZeroNorOne
+{};
+
 class invalidArgc
 {};
 
@@ -20,8 +23,10 @@ class LFSR
 public:
 	LFSR(std::string, int);
 
-	int stringToVector();
-	int vectorToString();
+	void stringToVector();
+	void vectorToString();
+
+	void integerToBinary(int);
 
 	int step();
 	int generate(int);
