@@ -5,8 +5,8 @@
 #include <iostream>
 #include "LFSR.hpp"
 
-const int ARGC_WITH_PASSWORD = 4;
-const int ARGC_WITH_BITSTRING = 5;
+const int USING_A_PASSWORD = 4;
+const int USING_A_BITSTRING_AND_TAP = 5;
 
 const int INPUT_ARG = 1;
 const int OUTPUT_ARG = 2;
@@ -21,13 +21,8 @@ int main(int argc, char* argv[])
 	// args to main
 	std::string inputFile;
 	std::string outputFile;
-	std::string password; 
-	std::string bitstring;
-	std::string tap;
-
-	// for the LFSR
 	std::string lfsr_seed; // either a password or a bitstring
-	int lfsr_tap;		   // converted from a std::string
+	int lfsr_tap;		  
 
 	// sfml vars
 	sf::Vector2u size;
@@ -44,42 +39,22 @@ int main(int argc, char* argv[])
 	// =============================== did the user supply the right number of args?
 	try
 	{	
-		// arg-c... if they want to give it a password
-		if (argc == ARGC_WITH_PASSWORD)
+		if (argc == USING_A_PASSWORD)
 		{
-			// their password will get converted to a binary seed,
-			// to be tapped at a relatively prime position
-			password = argv[PASSWORD_ARG];
-			lfsr_seed = password;
-			tap = PRIME_TAP;
-		
-			// cast their now-validated tap from std::string to an int
-			// via cstring (stoi only available in c++1)
-		//	char* tap_cstring = new char[tap.length()+1];
-		//	std::strcpy(tap_cstring, tap.c_str());
-			lfsr_tap = stringToInt(tap); //= atoi(tap_cstring);
+			lfsr_seed = argv[PASSWORD_ARG]; // will be converted to a bitstring
+			lfsr_tap = PRIME_TAP;			// upon lfsr instantiation
 		}
 
-		// arg-c... if they want to give it a bitstring and tap
-		if (argc == ARGC_WITH_BITSTRING)
+		if (argc == USING_A_BITSTRING_AND_TAP)
 		{
-			bitstring = argv[BITSTRING_ARG];
-			lfsr_seed = bitstring;
-			tap = argv[TAP_ARG];
-
-			// tell them to provide better arguments, and exit
-			if (!bitstringAndTapAreValid(bitstring, tap))
-				return -1;
-
-			// cast their now-validated tap from std::string to an int
-			// via cstring (stoi only available in c++1)
-			char* tap_cstring = new char[tap.length()+1];
-			std::strcpy(tap_cstring, tap.c_str());
-			lfsr_tap = stringToInt(tap);// = atoi(tap_cstring);
+			lfsr_seed = argv[BITSTRING_ARG];
+			lfsr_tap = atoi(argv[TAP_ARG]);
+			
+			if (!bitstringAndTapAreValid(lfsr_seed, argv[TAP_ARG]))
+				return -1;		
 		}
 
-		// arg-c...learly they are doing it wrong
-		if (argc != ARGC_WITH_PASSWORD && argc != ARGC_WITH_BITSTRING)
+		if (argc != USING_A_PASSWORD && argc != USING_A_BITSTRING_AND_TAP)
 			throw invalidArgc();
 	}
 	catch (invalidArgc e)
@@ -153,13 +128,9 @@ int main(int argc, char* argv[])
 	inputSprite.setTexture(inputTexture);
 	inputSprite.setPosition(0, 0);
 
-	// ======================================================== CREATE YOUR LFSR! :)
+	// =========================================== CREATE YOUR LFSR AND ENCRYPT!! :)
 	// =============================================================================
 	LFSR lfsr(lfsr_seed, lfsr_tap);
-	// =============================================================================
-	// =============================================================================
-
-	// encrypt the output image
 	for (int x = 0; x < size.x; ++x)
 	{
 		for (int y = 0; y < size.y; ++y)
