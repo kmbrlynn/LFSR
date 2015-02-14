@@ -126,7 +126,15 @@ std::ostream& operator <<(std::ostream& outStream, const LFSR& lfsr)
 	return outStream;
 }
 
-// ===============================================================================bool bitstringAndTapAreValid(std::string bitstring, int tap)
+// ========================= we aren't allowed to use c++11 so I wrote my own stoi()
+int stringToInt(std::string stlString)
+{
+	char* cString = new char[stlString.length()+1]; // remember null terminator
+	std::strcpy(cString, stlString.c_str());
+	return atoi(cString);	
+}
+
+// =================================================================================
 bool bitstringAndTapAreValid(std::string bitstring, std::string tap)
 {		
 	for (int i = 0; i < bitstring.size(); ++i)
@@ -160,10 +168,10 @@ bool bitstringAndTapAreValid(std::string bitstring, std::string tap)
 		}
 	}
 
-	// convert string to int via cstring (stoi not available in c++11)
-	char* tap_cstring = new char[tap.length()+1]; // remember null terminator
-	std::strcpy(tap_cstring, tap.c_str());
-	int tap_integer = atoi(tap_cstring);
+	// convert string to int via cstring (stoi only available in c++11)
+	//char* tap_cstring = new char[tap.length()+1]; // remember null terminator
+	//std::strcpy(tap_cstring, tap.c_str());
+	int tap_integer = stringToInt(tap); // = atoi(tap_cstring);
 	if (tap_integer < 0 || tap_integer+1 > bitstring.size())
 	{
 		std::cout << std::endl;

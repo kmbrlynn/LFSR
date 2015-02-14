@@ -15,6 +15,9 @@ class invalidInputFile
 class invalidOutputFormat
 {}; // in case the user doesn't specify a .png or .bmp output format
 
+int stringToInt(std::string);
+// wrote my own stoi() function since we aren't allowed to use c++11
+
 bool bitstringAndTapAreValid(std::string, std::string);
 // ensures that a bitstring is made of 0s and 1s
 // and that the tap is an integer within the bitstring's bounds

@@ -52,6 +52,12 @@ int main(int argc, char* argv[])
 			password = argv[PASSWORD_ARG];
 			lfsr_seed = password;
 			tap = PRIME_TAP;
+		
+			// cast their now-validated tap from std::string to an int
+			// via cstring (stoi only available in c++1)
+		//	char* tap_cstring = new char[tap.length()+1];
+		//	std::strcpy(tap_cstring, tap.c_str());
+			lfsr_tap = stringToInt(tap); //= atoi(tap_cstring);
 		}
 
 		// arg-c... if they want to give it a bitstring and tap
@@ -66,7 +72,10 @@ int main(int argc, char* argv[])
 				return -1;
 
 			// cast their now-validated tap from std::string to an int
-			lfsr_tap = std::atoi(argv[TAP_ARG]);
+			// via cstring (stoi only available in c++1)
+			char* tap_cstring = new char[tap.length()+1];
+			std::strcpy(tap_cstring, tap.c_str());
+			lfsr_tap = stringToInt(tap);// = atoi(tap_cstring);
 		}
 
 		// arg-c...learly they are doing it wrong
