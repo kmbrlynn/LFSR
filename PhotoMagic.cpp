@@ -119,7 +119,8 @@ int main(int argc, char* argv[])
 
 	// ========================================================================= sfml
 	size = inputImage.getSize();
-	sf::RenderWindow window(sf::VideoMode(size.x*2, size.y), "Image encryption");
+	sf::RenderWindow window(sf::VideoMode(size.x*2, size.y), "Input file: "+inputFile
+	+ "													Output file: " + outputFile);
 	window.setPosition(sf::Vector2i(200, 50));
 	outputImage.create(size.x, size.y, sf::Color::White);
 
