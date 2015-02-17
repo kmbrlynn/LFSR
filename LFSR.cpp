@@ -25,17 +25,24 @@ void LFSR::stringToVector()
 {
 	try
 	{
-		for (int i = 0; i < _seedStr.size(); ++i)
+		std::string::iterator iter;
+		for (iter = _seedStr.begin(); iter != _seedStr.end(); ++iter)
 		{
-			if (_seedStr[i] == ASCII_ZERO)
+			if (_seedStr[*iter] == ASCII_ZERO/* || (int)_seedStr[i] % 2 == 0*/)
 				_seedVect.push_back(0);
 
-			if (_seedStr[i] == ASCII_ONE)
+			if (_seedStr[*iter] == ASCII_ONE/* || (int)_seedStr[i] % 2 == 1*/)
 				_seedVect.push_back(1);
 
-			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
+			else
 			{
+//				integerToBinary((int)_seedStr[*iter], _seedVect);
+//			}
+
+	//		if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
+	//		{
 				_seedVect.clear();
+		
 				throw translateAlphanumericToBinary();
 			}
 		}
@@ -44,14 +51,19 @@ void LFSR::stringToVector()
 	{
 		int integerTotal = 0;
 
-		for (int i = 0; i < _seedStr.size(); ++i)
-			integerTotal += (int)_seedStr.at(i);
-
-		integerToBinary(integerTotal, _seedVect);
-
+//		for (int i = 0; i < _seedStr.size(); ++i)
+//			integerTotal += (int)_seedStr.at(i);
+		std::string::iterator iter;
+		for (iter = _seedStr.begin(); iter != _seedStr.end(); ++iter) 
+		{	
+			int integer = (int)_seedStr.at(*iter);
+			integerToBinary(integer, _seedVect);
+		
+		}
 		// keep the string representation up to date with the vector representation
 		vectorToString();
 	}
+
 }
 	
 // =================================================================================
