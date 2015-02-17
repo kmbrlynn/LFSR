@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <cstdlib>
 
 const char ASCII_ZERO = '0';
 const char ASCII_ONE = '1';
@@ -36,7 +35,12 @@ void LFSR::stringToVector()
 
 			if (_seedStr[i] != ASCII_ZERO && _seedStr[i] != ASCII_ONE)
 			{
+				// clear _seedVect and beef it up with a starter seed
 				_seedVect.clear();
+				int starterSeed[] = {0,0,1,1,1,0,1,1};
+				for(int i = 0; i < 8; ++i)
+					_seedVect.push_back(starterSeed[i]);
+
 				throw translateAlphanumericToBinary();
 			}
 		}
@@ -47,16 +51,13 @@ void LFSR::stringToVector()
 		int integerVectTotal = 0;
 
 		for (int i = 0; i < _seedStr.size(); ++i)
-		{
-			// cast the ascii character to its integer value, 
-			// and push it to the temporary vector of integers
+		{	
 			integerVect.push_back((int)_seedStr.at(i));	
-			integerVectTotal = integerVectTotal + integerVect[i];
+			integerVectTotal += integerVect[i];
 		}
-		
-		// convert to binary, and push to the _seedVect
-		integerToBinary(integerVectTotal);
-		
+
+		integerToBinary(integerVectTotal, _seedVect);
+
 		// keep the string representation up to date with the vector representation
 		vectorToString();
 	}
@@ -76,14 +77,14 @@ void LFSR::vectorToString()
 }
 
 // =================================================================================
-void LFSR::integerToBinary(int num)
+void LFSR::integerToBinary(int num, std::vector<int>& bitstring)
 {
 	int quotient = num / 2;
 	int bit = num % 2;
-	_seedVect.push_back(bit);
+	bitstring.push_back(bit);
 
 	if (num > 0)
-		integerToBinary(quotient);
+		integerToBinary(quotient, bitstring);
 }
 
 // =================================================================================

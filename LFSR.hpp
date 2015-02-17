@@ -31,7 +31,7 @@ public:
 	void stringToVector();
 	void vectorToString();
 
-	void integerToBinary(int);
+	void integerToBinary(int, std::vector<int>&);
 
 	int step();
 	int generate(int);
